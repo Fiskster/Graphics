@@ -6,12 +6,26 @@ using System.Collections.Generic;
 
 namespace Graphics
 {
-    class Buller
+    class Bullet
     {
-        public Vector2 speed = new Vector2();
+        public Vector2 bulletPosition = new Vector2();
+         private Timer time;
 
-        public float bulletX;
-         public float bulletY;
+         public Bullet()
+         {
+             bulletPosition = 
+         }
+
+         public void Update()
+         {
+             time = new Timer(144);
+             if (time.currentValue == 0)
+            {
+                bulletY = bulletY -= 15f;
+                time.Reset();
+            }
+
+         }
 
     }
     class Timer
@@ -72,11 +86,15 @@ namespace Graphics
             int WindowW = 1920;
             int WindowH = 1080;
             Raylib.InitWindow(WindowW, WindowH, "poggers");
+            //  Bullet bullet = new Bullet();
+            List<Bullet> bullets = new List<Bullet>();
 
             List<Enemy> enemies = new List<Enemy>();
 
             float x = 800;
             float y = 790;
+            // bullet.bulletX = x;
+            // bullet.bulletY = y;
             
 
             
@@ -85,6 +103,7 @@ namespace Graphics
 
 
             Timer t = new Timer(60);
+            
 
 
             var bruh = Raylib.LoadImage(@"C:\Users\axel.lilja2\Documents\PROG02\Graphics\Graphics\bin\Debug\netcoreapp3.1\boomer.png");
@@ -115,15 +134,25 @@ namespace Graphics
                         y += 3.5f;
                     }
                 }
-                 if (Raylib.IsKeyDown(KeyboardKey.KEY_SPACE))
+                
+                 if (Raylib.IsKeyPressed(KeyboardKey.KEY_SPACE))
                     {
-                        
+                    bullets.Add(new Bullet());
                     }
                 Raylib.BeginDrawing();
+               
+                
 
-
+                
+                
                 Raylib.ClearBackground(Color.BLACK);
                 Raylib.DrawTexture(texture, (int)x, (int)y, Color.WHITE);
+               
+                 foreach (Bullet b in bullets)
+                 {
+                     b.Update();
+                       Raylib.DrawRectangle((int)bullets.bulletX, (int)bullets.bulletY, 20,60, Color.GREEN);
+                 }
 
 
 
